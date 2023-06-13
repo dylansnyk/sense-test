@@ -1,0 +1,204 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion rootProject.androidCompileSdkVersion
+    buildToolsVersion rootProject.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.androidMinSdkVersion
+        targetSdkVersion rootProject.androidTargetSdkVersion
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile rootProject.androidLibs.support
+    compile rootProject.androidLibs.annotations
+
+    compile rootProject.libs.logger
+    compile rootProject.libs.dependencyInjection
+    provided rootProject.libs.dependencyInjectionCompiler
+    provided rootProject.libs.dependencyInjectionAnnotation
+    compile rootProject.libs.rxAndroid
+    compile rootProject.libs.rxJava
+    compile rootProject.libs.eventBus
+    compile rootProject.libs.butterKnife
+
+    testCompile rootProject.testLibs.junit
+    testCompile rootProject.testLibs.mockito
+    testCompile rootProject.testLibs.hamcrest
+}
+dependencies.gradle
+ext {
+    // Android config
+    androidBuildToolsVersion = '23.0.2'
+    androidMinSdkVersion = 14
+    androidTargetSdkVersion = 23
+    androidCompileSdkVersion = 23
+
+    // Android libraries
+    versionSupportLibrary = '23.1.1'
+    versionSupportAnnotations = '23.1.1'
+
+    // Third party Libraries
+    versionOrhanobut = '1.12'
+    versionDagger = '2.0'
+    versionDaggerCompiler = '2.0'
+    versionJavaxAnnotation = '10.0-b28'
+    versionGson = '2.5'
+    versionIntellJAnnotations = '12.0'
+    versionButterKnife = '7.0.1'
+    versionEventBus = '3.0.0'
+    versionRxJava = '1.1.0'
+    versionRxLifecycle = '0.4.0'
+    versionAutoParcel = '0.3.1'
+
+    // Test Libraries
+    versionJunit = '4.12'
+    versionMockito = '1.10.19'
+    versionHamcrest = '1.3'
+    versionPowerMockito = '1.6.2'
+
+
+
+    androidLibs = [
+            /**
+             * Android Support Library
+             * @link "https://urldefense.proofpoint.com/v2/url?u=http-3A__developer.android.com_intl_es_tools_support-2Dlibrary_setup.html&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=rrsmngiZ8fjW8ES7kEz9iugMIW6KY2gDG-mtmx2CZ-s&e= "
+             */
+            support: "com.android.support:support-v4:$rootProject.versionSupportLibrary",
+
+            /**
+             * Android Annotations Library
+             * @link "https://urldefense.proofpoint.com/v2/url?u=http-3A__tools.android.com_tech-2Ddocs_support-2Dannotations&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=goysFXsGSw0J4qetMOfwEhnxUfRsnb2CxlPNsnsSGZw&e= "
+             */
+            annotations: "com.android.support:support-annotations:$rootProject.versionSupportAnnotations"
+    ]
+
+    libs = [
+            /**
+             * Simple, pretty and powerful logger for android
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_orhanobut_logger&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=a2yml6TS9J8m1OJTggXqHGXIm2BNnNE4rZf2Nw_0XM0&e= "
+             * @license Apache 2.0 license [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_orhanobut_logger_blob_master_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=wLJ0Xq85LrRKW1217z3DeL8FRGJqYbsmmenxUwKgOJg&e= ]
+             */
+            logger : "com.github.orhanobut:logger:$rootProject.versionOrhanobut",
+
+            /**
+             * A fast dependency injector for Android
+             * @link "https://urldefense.proofpoint.com/v2/url?u=http-3A__google.github.io_dagger&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=yo3-aahFd4KwQddRasj-6rOzUo8vVSF44wACLQRoHj0&e= "
+             * @license Apache 2.0 license [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_google_dagger_blob_master_LICENSE.txt&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=yaNafa8nBnDYRilcjlB2LGb0a3SkXUMu1NTQrd5HYVk&e= ]
+             */
+            dependencyInjection           : "com.google.dagger:dagger:$rootProject.versionDagger",
+            dependencyInjectionCompiler   : "com.google.dagger:dagger-compiler:$rootProject.versionDaggerCompiler",
+            dependencyInjectionAnnotations: "org.glassfish:javax.annotation:$rootProject.versionJavaxAnnotation",
+
+            /**
+             * Gson is a Java library that can be used to convert Java Objects into their JSON representation.
+             * It can also be used to convert a JSON string to an equivalent Java object.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_google_gson&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=zHo4dHGUUd3uOFajIyy-WhZnPg_Gy5CQiXUsDDpvVJY&e= "
+             * @license Apache 2.0 license [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_google_gson_blob_master_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=vCLQwCGnqIkkefY5UQBw65qHYUiUfYE5ZZvPMx86rfI&e= ]
+             */
+            json : "com.google.code.gson:gson:$rootProject.versionGson",
+
+            /**
+             * A set of annotations used for code inspection support and code documentation.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__www.jetbrains.com_idea_help_annotating-2Dsource-2Dcode.html&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=QXpBuA7VDSsVucJ4dbZS-PcTLHJTw7McBND5YJHm4us&e= "
+             * @license Apache License 2
+             */
+            intelljAnnotations : "com.intellij:annotations:$rootProject.versionIntellJAnnotations",
+
+            /**
+             * Field and method binding for Android views which uses annotation processing to generate boilerplate code.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=http-3A__jakewharton.github.io_butterknife_&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=Vi_fJULaNkRICpE0VpgNRpL-e7VdMQkNV1XCuYR1jkQ&e= "
+             * @license Apache License 2 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_JakeWharton_butterknife_blob_master_LICENSE.txt&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=dD5qhb9IPIQz3uook1g06-27djhauc3CoUOVWM90RGA&e= ]
+             */
+            butterKnife : "com.jakewharton:butterknife:$rootProject.versionButterKnife",
+
+            /**
+             * EventBus is a publish/subscribe event bus optimized for Android.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=http-3A__jakewharton.github.io_butterknife_&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=Vi_fJULaNkRICpE0VpgNRpL-e7VdMQkNV1XCuYR1jkQ&e= "
+             * @license Apache License 2 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_greenrobot_EventBus_blob_master_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=oi8h1mb5PpYviu1jfxBy7kVsnZ1W3uj00BiV-B33RLQ&e= ]
+             */
+            eventBus : "org.greenrobot:eventbus:$rootProject.versionEventBus",
+
+            /**
+             * RxJava is a Java VM implementation of Reactive Extensions: a library for composing asynchronous
+             * and event-based programs by using observable sequences.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_ReactiveX_RxJava&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=8lkndG8LyouCOPUkLKwcPNuwWqM6Zgi0hvu3gOAbdKQ&e= "
+             * @license Apache License 2 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_ReactiveX_RxJava_blob_1.x_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=GH1nXVk39BUVmzionQOeeoSuEMfAHly9WwLRt3Zxi3o&e= ]
+             */
+            rxJava : "io.reactivex:rxjava:$rootProject.versionRxJava",
+
+            /**
+             * Android specific bindings for RxJava.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_ReactiveX_RxAndroid&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=HgImpr6MqKfTDKPAViDxK5I4A8JCL1E6pICuH5h7xXI&e= "
+             * @license Apache License 2 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_ReactiveX_RxAndroid_blob_master_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=NOzVO0tODIj-n0KIYWNNgNJ9EwCVr_yxlcJVxBrflIU&e= ]
+             */
+            rxAndroid : "io.reactivex:rxandroid:$rootProject.versionRxJava",
+
+            /**
+             * The utilities provided here allow for automatic completion of sequences based on Activity or Fragment
+             * lifecycle events. This capability is useful in Android, where incomplete subscriptions
+             * can cause memory leaks..
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_trello_RxLifecycle&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=O111hoWAr9QvuR_qyNo2K_7zgvbp-UphlXkGz-KkQqk&e= "
+             * @license Apache License 2 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_trello_RxLifecycle_blob_master_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=9cLZf-ht4n2QTRzlM-am3JCGOrBUYr2P6RC1-QnEYjM&e= ]
+             */
+            rxLifecycle : "com.trello:rxlifecycle:$rootProject.versionRxLifecycle",
+
+            /**
+             * Port of Google AutoValue for Android with Parcelable generation goodies.
+             * @link "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_frankiesardo_auto-2Dparcel&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=L0z9tpkzoker5HBuvzsaRF5gcTwDYaJrVHOAPo7GoMs&e= "
+             * @license Apache License 2 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_frankiesardo_auto-2Dparcel_blob_master_LICENSE.txt&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=rDFVNhjPMpziJ99hNtiNlUAIjAL0fCDuH7VCACzS50M&e= ]
+             */
+            autoParcel : "com.github.frankiesardo:auto-parcel:$rootProject.versionAutoParcel",
+            autoParcelProcessor : "com.github.frankiesardo:auto-parcel-processor:$rootProject.versionAutoParcel"
+    ]
+
+
+    testLibs = [
+            /**
+             * Framework to write repeatable tests.
+             * @link https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_junit-2Dteam_junit&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=SRRTor38OVksFunvPkrTaQwYdDgnyfgONngPYznXYfI&e= 
+             * @license Eclipse Public License - v 1.0 [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_junit-2Dteam_junit_blob_master_LICENSE-2Djunit.txt&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=lK7G_FmnF0zKuXi71-Y2kbllmeXITgXprsd5FRB5lpA&e= ]
+             */
+            junit : "junit:junit:$rootProject.versionJunit",
+
+            /**
+             * Tasty mocking framework for unit tests.
+             * @link https://urldefense.proofpoint.com/v2/url?u=http-3A__site.mockito.org_&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=MpL4wqg2Lyh55Lq4oi5iX7hVPpD5nsjGfZhBTvzXRqQ&e= 
+             * @license The MIT License [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_mockito_mockito_blob_master_LICENSE&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=upjI0PqRUq1x_uSuOZrMRV_cX8fxOcsgfhfveOrKY24&e= ]
+             */
+            mockito : "org.mockito:mockito-all:$rootProject.versionMockito",
+
+            /**
+             * Hamcrest is a library of matchers, which can be combined in to create flexible
+             * expressions of intent in tests.
+             * @link https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_hamcrest_JavaHamcrest&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=Hmc9-AaNMCokP7R7blAZrC2OlSKRqXTAC8u33ULjnSQ&e= 
+             * @license BSD License [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_hamcrest_JavaHamcrest_blob_master_LICENSE.txt&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=X1MkW9o6KXb3DAYFkwLm1wPsxih0IOdivsQvMrKHZ1U&e= ]
+             */
+            hamcrest : "org.hamcrest:hamcrest-all:$rootProject.versionHamcrest",
+
+            /**
+             * PowerMock is a framework that extends other mock libraries such as Mockito with more powerful capabilities
+             * @link https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_jayway_powermock&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=Y-RGS-y1SsJ01xc4nnnD6heOINsexubbOAkD6q-sqxk&e= 
+             * @license Apache 2.0 license [https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_jayway_powermock_blob_master_LICENSE.txt&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=aDhOf1-oLttCSdgFGcxSUWdjK7R_uMsr9PfLqLwf4zw&e= ]
+             */
+            powerMockitoModule: "org.powermock:powermock-module-junit4:$rootProject.versionPowerMockito",
+            powerMockitoApi   : "org.powermock:powermock-api-mockito:$rootProject.versionPowerMockito"
+    ]
+}
