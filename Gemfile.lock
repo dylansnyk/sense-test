@@ -1,5 +1,5 @@
 GEM
-  remote: https://urldefense.proofpoint.com/v2/url?u=https-3A__rubygems.org_&d=DwIGAg&c=wwDYKmuffy0jxUGHACmjfA&r=VsNv54qIWlY1N5-8mzQTL18fSX37uOJreVEQpaAFDC0&m=Vog56iUhrk1jS6KD_xrXfutViS9I7mDRM010arBo3dXR3kHielF5GloXNxmwwfMp&s=8-pPwMB7lWPYR812n185mWCpiKxIH63-4J-Jc6e6qGk&e= 
+  remote: https://rubygems.org 
   specs:
     CFPropertyList (3.0.6)
       rexml
